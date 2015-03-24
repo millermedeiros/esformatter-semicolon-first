@@ -1,0 +1,34 @@
+{
+  "name": "esformatter-semicolon-first",
+  "version": "1.0.0",
+  "description": "esformatter plugin: add semicolon before '[' and '(' if it's the start of a line.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --ui bdd --reporter spec test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/millermedeiros/esformatter-semicolon-first.git"
+  },
+  "keywords": [
+    "esformatter",
+    "string",
+    "quotes",
+    "AST"
+  ],
+  "author": "Miller Medeiros (http://blog.millermedeiros.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/millermedeiros/esformatter-semicolon-first/issues"
+  },
+  "homepage": "https://github.com/millermedeiros/esformatter-semicolon-first",
+  "devDependencies": {
+    "mocha": "https://github.com/millermedeiros/mocha/tarball/latest",
+    "chai": "^1.4",
+    "esformatter": "^0.5.0"
+  },
+  "dependencies": {
+    "rocambole": "^0.5.1",
+    "rocambole-token": "^1.2.1"
+  }
+}
