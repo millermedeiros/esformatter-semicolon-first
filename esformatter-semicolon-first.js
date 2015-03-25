@@ -24,8 +24,13 @@ exports.tokenAfter = function(token) {
 };
 
 function processToken(token) {
-  if (!tk.isBr(token)) {
+  // first token might be `(` or `[`
+  if (!tk.isBr(token) && token.prev) {
     return;
+  }
+
+  if (token.prev) {
+    token = token.next;
   }
 
   var opening = findOpening(token);
@@ -40,7 +45,6 @@ function processToken(token) {
 }
 
 function findOpening(token) {
-  token = token.next;
   while (token) {
     // only search on current line
     if (tk.isBr(token)) return;
@@ -60,7 +64,7 @@ function findOpening(token) {
 function shouldInsert(opening) {
   if (!opening) return;
 
-  var prev = tk.findPrevNonEmpty(opening);
-  return prev.type !== 'Punctuator' || prev.value === ')';
+  var prev = tk.findPrev(opening, tk.isCode);
+  return !prev || prev.type !== 'Punctuator' || prev.value === ')';
 }
 
