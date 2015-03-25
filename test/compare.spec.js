@@ -4,29 +4,29 @@
 
 var esformatter = require('esformatter');
 var fs = require('fs');
+var path = require('path');
 var plugin = require('../');
-var expect = require('chai').expect;
+var diff = require('diff');
 
+var basePath = path.join(__dirname, 'compare');
 
-describe('compare input/output', function() {
+esformatter.register(plugin);
 
-  var input;
+formatAndCompare('input.js', 'output.js');
 
-  before(function() {
-    input = getFile('input.js');
-    esformatter.register(plugin);
-  });
+function formatAndCompare(inputFile, expectedFile) {
+  var input = getFile(inputFile);
+  var expected = getFile(expectedFile);
+  var output = esformatter.format(input);
 
-  describe('single quote', function() {
-    it('should convert to single quotes and normalize escapes', function() {
-      var output = esformatter.format(input);
-      expect(output).to.be.eql(getFile('output.js'));
-    });
-  });
-
-});
-
+  if (output !== expected) {
+    process.stderr.write(diff.createPatch(expectedFile, expected, output));
+    process.exit(1);
+  } else {
+    console.error('ok %s', inputFile);
+  }
+}
 
 function getFile(name) {
-  return fs.readFileSync('test/compare/' + name).toString();
+  return fs.readFileSync(path.join(basePath, name)).toString();
 }
