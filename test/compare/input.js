@@ -40,3 +40,6 @@ callFunctionLotsOfArgs(
   // test if comment will affect logic
   [bizzle]
 )
+
+// test ES6 support
+import * as lib from 'lib'

@@ -3,11 +3,40 @@
 
 var tk = require('rocambole-token');
 var rocambole = require('rocambole');
+var espree = require('espree');
+
+var parseOptions = {
+  ecmaFeatures: {
+    arrowFunctions: true,
+    blockBindings: true,
+    destructuring: true,
+    regexYFlag: true,
+    regexUFlag: true,
+    templateStrings: true,
+    binaryLiterals: true,
+    octalLiterals: true,
+    unicodeCodePointEscapes: true,
+    defaultParams: true,
+    restParams: true,
+    forOf: true,
+    objectLiteralComputedProperties: true,
+    objectLiteralShorthandMethods: true,
+    objectLiteralShorthandProperties: true,
+    objectLiteralDuplicateProperties: true,
+    generators: true,
+    spread: true,
+    classes: true,
+    modules: true,
+    jsx: true,
+    globalReturn: true
+  }
+};
 
 // need to use `stringBefore` since we are actually changing the
 // behavior/structure of the program by introducing the semi-colons
 exports.stringBefore = function(str) {
-  var ast = rocambole.parse(str);
+  rocambole.parseFn = espree.parse.bind(espree);
+  var ast = rocambole.parse(str, parseOptions);
   tk.eachInBetween(ast.startToken, ast.endToken, processToken);
   return ast.toString();
 };
