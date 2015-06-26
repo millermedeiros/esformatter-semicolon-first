@@ -6,7 +6,7 @@ var esformatter = require('esformatter');
 var fs = require('fs');
 var path = require('path');
 var plugin = require('../');
-var diff = require('diff');
+var disparity = require('disparity');
 
 var basePath = path.join(__dirname, 'compare');
 
@@ -20,7 +20,9 @@ function formatAndCompare(inputFile, expectedFile) {
   var output = esformatter.format(input);
 
   if (output !== expected) {
-    process.stderr.write(diff.createPatch(expectedFile, expected, output));
+    process.stderr.write(disparity.chars(output, expected, {
+      paths: ['actual', 'expected']
+    }));
     process.exit(1);
   } else {
     console.error('ok %s', inputFile);
