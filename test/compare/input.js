@@ -44,3 +44,7 @@ callFunctionLotsOfArgs(
 // test ES6 support
 import * as lib from 'lib'
 const noop = async () => undefined
+
+// issue #4
+var obj = {}
+var z = {...obj, test: 1}
