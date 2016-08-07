@@ -41,6 +41,9 @@ callFunctionLotsOfArgs(
   [bizzle]
 )
 
+// issue #6
+var jsx = <div onSomething={(x) => y(x)}><foo /></div>;
+
 // test ES6 support
 import * as lib from 'lib'
 const noop = async () => undefined
