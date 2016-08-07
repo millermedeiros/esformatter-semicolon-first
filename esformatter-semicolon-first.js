@@ -1,42 +1,25 @@
 //jshint node:true, eqnull:true
 'use strict';
 
-var tk = require('rocambole-token');
+var br = require('rocambole-linebreak');
+var parser = require('esformatter-parser');
 var rocambole = require('rocambole');
-var espree = require('espree');
+var tk = require('rocambole-token');
 
-var parseOptions = {
-  ecmaFeatures: {
-    arrowFunctions: true,
-    blockBindings: true,
-    destructuring: true,
-    regexYFlag: true,
-    regexUFlag: true,
-    templateStrings: true,
-    binaryLiterals: true,
-    octalLiterals: true,
-    unicodeCodePointEscapes: true,
-    defaultParams: true,
-    restParams: true,
-    forOf: true,
-    objectLiteralComputedProperties: true,
-    objectLiteralShorthandMethods: true,
-    objectLiteralShorthandProperties: true,
-    objectLiteralDuplicateProperties: true,
-    generators: true,
-    spread: true,
-    classes: true,
-    modules: true,
-    jsx: true,
-    globalReturn: true
+exports.setOptions = function(options) {
+  if (!('esformatter-semicolon-first' in options.lineBreak.before)) {
+    options.lineBreak.before['esformatter-semicolon-first'] = '>0';
   }
+  if (!('esformatter-semicolon-first' in options.lineBreak.after)) {
+    options.lineBreak.after['esformatter-semicolon-first'] = 0;
+  }
+  br.setOptions(options.lineBreak);
 };
 
 // need to use `stringBefore` since we are actually changing the
 // behavior/structure of the program by introducing the semi-colons
 exports.stringBefore = function(str) {
-  rocambole.parseFn = espree.parse.bind(espree);
-  var ast = rocambole.parse(str, parseOptions);
+  var ast = parser.parse(str);
   tk.eachInBetween(ast.startToken, ast.endToken, processToken);
   return ast.toString();
 };
@@ -48,7 +31,7 @@ exports.tokenAfter = function(token) {
 
   var prev = tk.findPrevNonEmpty(token);
   if (prev && prev.value === ';') {
-    tk.removeEmptyInBetween(prev, token);
+    br.limit(prev, 'esformatter-semicolon-first');
   }
 };
 

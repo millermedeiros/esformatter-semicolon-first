@@ -43,3 +43,4 @@ callFunctionLotsOfArgs(
 
 // test ES6 support
 import * as lib from 'lib'
+const noop = async () => undefined

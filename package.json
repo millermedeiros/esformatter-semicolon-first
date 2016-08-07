@@ -28,8 +28,9 @@
     "esformatter": ">=0.7.0 <2.0"
   },
   "dependencies": {
-    "espree": "^2.0.3",
+    "esformatter-parser": "^1.0",
     "rocambole": ">=0.6.0 <2.0",
+    "rocambole-linebreak": "^1.0.2",
     "rocambole-token": "^1.2.1"
   }
 }

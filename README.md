@@ -5,7 +5,7 @@ semicolon before `[` and `(` if they are the first things on the line.
 
 created mainly to be used by [standard-format](https://github.com/maxogden/standard-format)
 
-## usage
+## Usage
 
 Add to your esformatter config file:
 
@@ -22,6 +22,26 @@ Or you can manually register the plugin if not using `esformatter` directly:
 ```js
 // register plugin
 esformatter.register(require('esformatter-semicolon-first'));
+```
+
+# Config
+
+By default we add at least one line break before the semicolon and remove line
+breaks afterwards, but you can use the
+`lineBreak.before['esformatter-semicolon-first']` and
+`lineBreak.after['esformatter-semicolon-first']` to configure it tho.
+
+```json
+{
+  "lineBreak": {
+    "before": {
+      "esformatter-semicolon-first": ">0"
+    },
+    "after": {
+      "esformatter-semicolon-first": 0
+    }
+  }
+}
 ```
 
 ## Examples
